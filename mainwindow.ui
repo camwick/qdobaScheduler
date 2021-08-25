@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>542</width>
-    <height>366</height>
+    <width>750</width>
+    <height>365</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -92,6 +92,9 @@
             <pointsize>14</pointsize>
            </font>
           </property>
+          <property name="statusTip">
+           <string>Select the employee to remove</string>
+          </property>
          </widget>
         </item>
         <item row="0" column="0">
@@ -121,19 +124,47 @@
        </layout>
       </widget>
       <widget class="QWidget" name="schedulerPg">
-       <widget class="QLabel" name="label">
-        <property name="geometry">
-         <rect>
-          <x>230</x>
-          <y>110</y>
-          <width>131</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Scheduler page</string>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QTableWidget" name="tableWidget">
+          <column>
+           <property name="text">
+            <string>Monday:</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Tuesday:</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Wednesday:</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Thursday:</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Friday:</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Saturday:</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Sunday:</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -144,7 +175,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>542</width>
+     <width>750</width>
      <height>21</height>
     </rect>
    </property>
