@@ -30,6 +30,8 @@ private slots:
 
     void on_empAddBtn_clicked();
 
+    void on_empAddLNLineEdit_returnPressed();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

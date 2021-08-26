@@ -87,6 +87,12 @@ void MainWindow::on_empAddBtn_clicked()
     updateRemoveComboBox();
 }
 
+// return press functions
+void MainWindow::on_empAddLNLineEdit_returnPressed()
+{
+    MainWindow::on_empAddBtn_clicked();
+}
+
 // custom functions
 void MainWindow::updateRemoveComboBox()
 {
@@ -106,3 +112,6 @@ void MainWindow::updateRemoveComboBox()
             qWarning() << "ERROR: " << query.lastError().text();
     }
 }
+
+
+
