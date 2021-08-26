@@ -10,15 +10,11 @@ MainWindow::MainWindow(QWidget *parent)
     const QString DRIVER("QSQLITE");
     if(QSqlDatabase::isDriverAvailable(DRIVER)){
         db = QSqlDatabase::addDatabase(DRIVER);
-        db.setDatabaseName("qdobaEmployees.db");
-
-        qDebug() << "Connected to database";
+        db.setDatabaseName("C:/Users/cam_w/Desktop/SQLiteStudio/qdobaEmployees.db");
     }
 
     if(!db.open())
         qWarning() << "ERROR: " << db.lastError();
-
-    //connect (ui -> actionRemove, SIGNAL(triggered()), SLOT(on_actionRemove_triggered()));
 
     ui -> stackedWidget-> setCurrentIndex(2);
 }
@@ -41,10 +37,10 @@ void MainWindow::on_actionRemove_triggered()
     QSqlQuery query;
     QString data;
 
-    query.prepare("SELECT * FROM employees");
-    query.exec();
+    query.exec("SELECT firstName, lastName FROM employees ORDER BY lastName ");
+
     while(query.next()){
-        data = query.value(1).toString() + " " + query.value(2).toString();
+        data = query.value(0).toString() + " " + query.value(1).toString();
 
         ui -> empRemoveComboBox -> addItem(data);
 
