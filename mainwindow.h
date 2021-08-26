@@ -26,8 +26,14 @@ private slots:
 
     void on_actionScheduler_triggered();
 
+    void on_empRemoveBtn_clicked();
+
+    void on_empAddBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
+
+    void updateRemoveComboBox();
 };
 #endif // MAINWINDOW_H

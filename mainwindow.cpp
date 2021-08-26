@@ -16,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
     if(!db.open())
         qWarning() << "ERROR: " << db.lastError();
 
+    updateRemoveComboBox();
+
     ui -> stackedWidget-> setCurrentIndex(2);
 }
 
@@ -33,6 +35,43 @@ void MainWindow::on_actionAdd_triggered()
 void MainWindow::on_actionRemove_triggered()
 {
     ui -> stackedWidget -> setCurrentIndex(1);
+}
+
+void MainWindow::on_actionScheduler_triggered()
+{
+    ui -> stackedWidget -> setCurrentIndex(2);
+}
+
+// window button functions
+void MainWindow::on_empRemoveBtn_clicked()
+{
+
+}
+
+void MainWindow::on_empAddBtn_clicked()
+{
+    QString first = ui -> empAddFNLineEdit -> text();
+    QString last = ui -> empAddLNLineEdit -> text();
+
+    QSqlQuery query;
+
+    query.prepare("INSERT INTO employees (firstName, lastName) VALUES (:first, :last)");
+    query.bindValue(":first", first);
+    query.bindValue(":last", last);
+    query.exec();
+
+    if(!query.isActive())
+        qWarning() << "ERROR: " << query.lastError().text();
+
+    ui -> empAddFNLineEdit -> clear();
+    ui -> empAddLNLineEdit -> clear();
+    updateRemoveComboBox();
+}
+
+// custom functions
+void MainWindow::updateRemoveComboBox()
+{
+    ui -> empRemoveComboBox -> clear();
 
     QSqlQuery query;
     QString data;
@@ -48,9 +87,3 @@ void MainWindow::on_actionRemove_triggered()
             qWarning() << "ERROR: " << query.lastError().text();
     }
 }
-
-void MainWindow::on_actionScheduler_triggered()
-{
-    ui -> stackedWidget -> setCurrentIndex(2);
-}
-
