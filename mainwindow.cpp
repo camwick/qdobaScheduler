@@ -45,13 +45,32 @@ void MainWindow::on_actionScheduler_triggered()
 // window button functions
 void MainWindow::on_empRemoveBtn_clicked()
 {
+    QString fullName = ui -> empRemoveComboBox -> currentText();
+    QStringList nameParts = fullName.split(" ");
 
+    QSqlQuery query;
+
+    // getting id
+    /*
+    query.prepare("SELECT id FROM employees WHERE lastName = ?");
+    query.addBindValue(nameParts[0]);
+    if(!query.exec())
+        qWarning() << "Error at MainWindow::on_empRemoveBtn_click(): " << query.lastError();
+    */
+
+    query.prepare("DELETE FROM employees WHERE lastName = ?");
+    query.addBindValue(nameParts[1]);
+    if(!query.exec())
+        qWarning() << "Error at MainWindow::on_empRemoveBtn_click(): " << query.lastError();
+
+    ui -> empRemoveComboBox -> clear();
+    updateRemoveComboBox();
 }
 
 void MainWindow::on_empAddBtn_clicked()
 {
-    QString first = ui -> empAddFNLineEdit -> text();
-    QString last = ui -> empAddLNLineEdit -> text();
+    QString first = ui -> empAddFNLineEdit -> text().trimmed();
+    QString last = ui -> empAddLNLineEdit -> text().trimmed();
 
     QSqlQuery query;
 
