@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     const QString DRIVER("QSQLITE");
     if(QSqlDatabase::isDriverAvailable(DRIVER)){
         db = QSqlDatabase::addDatabase(DRIVER);
-        db.setDatabaseName("C:/Users/cam_w/Desktop/SQLiteStudio/qdobaEmployees.db");
+        db.setDatabaseName("D:/Desktop/SQLiteStudio/qdobaEmployees.db");
     }
 
     if(!db.open())
@@ -50,14 +50,6 @@ void MainWindow::on_empRemoveBtn_clicked()
 
     QSqlQuery query;
 
-    // getting id
-    /*
-    query.prepare("SELECT id FROM employees WHERE lastName = ?");
-    query.addBindValue(nameParts[0]);
-    if(!query.exec())
-        qWarning() << "Error at MainWindow::on_empRemoveBtn_click(): " << query.lastError();
-    */
-
     query.prepare("DELETE FROM employees WHERE lastName = ?");
     query.addBindValue(nameParts[1]);
     if(!query.exec())
@@ -72,19 +64,27 @@ void MainWindow::on_empAddBtn_clicked()
     QString first = ui -> empAddFNLineEdit -> text().trimmed();
     QString last = ui -> empAddLNLineEdit -> text().trimmed();
 
-    QSqlQuery query;
+    if(first == "" || last == ""){
+        QMessageBox warning;
+        warning.setIcon(QMessageBox::Warning);
+        warning.setText("Both text fields must be filled in order to add an employee to records.");
+        warning.exec();
+    }
+    else{
+        QSqlQuery query;
 
-    query.prepare("INSERT INTO employees (firstName, lastName) VALUES (:first, :last)");
-    query.bindValue(":first", first);
-    query.bindValue(":last", last);
-    query.exec();
+        query.prepare("INSERT INTO employees (firstName, lastName) VALUES (:first, :last)");
+        query.bindValue(":first", first);
+        query.bindValue(":last", last);
+        query.exec();
 
-    if(!query.isActive())
-        qWarning() << "ERROR: " << query.lastError().text();
+        if(!query.isActive())
+            qWarning() << "ERROR: " << query.lastError().text();
 
-    ui -> empAddFNLineEdit -> clear();
-    ui -> empAddLNLineEdit -> clear();
-    updateRemoveComboBox();
+        ui -> empAddFNLineEdit -> clear();
+        ui -> empAddLNLineEdit -> clear();
+        updateRemoveComboBox();
+    }
 }
 
 // return press functions
