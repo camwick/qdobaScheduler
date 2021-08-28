@@ -51,12 +51,22 @@ void MainWindow::on_empRemoveBtn_clicked()
     QString fullName = ui -> empRemoveComboBox -> currentText();
     QStringList nameParts = fullName.split(" ");
 
-    QSqlQuery query;
+    qDebug() << nameParts;
 
-    query.prepare("DELETE FROM employees WHERE lastName = ?");
+    QSqlQuery query;
+    query.prepare("SELECT * FROM employees WHERE lastName = ?");
     query.addBindValue(nameParts[1]);
     if(!query.exec())
-        qWarning() << "Error at MainWindow::on_empRemoveBtn_click(): " << query.lastError();
+        qWarning() << "empRemoveBtn before While ERROR: " << query.lastError();
+
+    while(query.next()){
+        if(query.value(1) == nameParts[0]){
+            query.prepare("DELETE FROM employees where firstName = ?");
+            query.addBindValue(nameParts[0]);
+            if(!query.exec())
+                qWarning() << "empRemoveBtn in While ERROR: " << query.lastError();
+        }
+    }
 
     ui -> empRemoveComboBox -> clear();
     updateRemoveComboBox();
