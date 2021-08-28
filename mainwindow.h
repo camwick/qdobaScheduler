@@ -38,5 +38,6 @@ private:
     QSqlDatabase db;
 
     void updateRemoveComboBox();
+    void updateScheduler();
 };
 #endif // MAINWINDOW_H

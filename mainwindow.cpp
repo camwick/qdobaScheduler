@@ -7,15 +7,18 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    QString path = QCoreApplication::applicationDirPath() + "/qdobaEmployees.db";
+
     const QString DRIVER("QSQLITE");
     if(QSqlDatabase::isDriverAvailable(DRIVER)){
         db = QSqlDatabase::addDatabase(DRIVER);
-        db.setDatabaseName("D:/Desktop/SQLiteStudio/qdobaEmployees.db");
+        db.setDatabaseName(path);
     }
 
     if(!db.open())
         qWarning() << "ERROR: " << db.lastError();
 
+    updateScheduler();
     updateRemoveComboBox();
 
     ui -> stackedWidget-> setCurrentIndex(2);
@@ -57,6 +60,7 @@ void MainWindow::on_empRemoveBtn_clicked()
 
     ui -> empRemoveComboBox -> clear();
     updateRemoveComboBox();
+    updateScheduler();
 }
 
 void MainWindow::on_empAddBtn_clicked()
@@ -84,6 +88,7 @@ void MainWindow::on_empAddBtn_clicked()
         ui -> empAddFNLineEdit -> clear();
         ui -> empAddLNLineEdit -> clear();
         updateRemoveComboBox();
+        updateScheduler();
     }
 }
 
@@ -111,6 +116,27 @@ void MainWindow::updateRemoveComboBox()
         if(!query.isActive())
             qWarning() << "ERROR: " << query.lastError().text();
     }
+}
+
+void MainWindow::updateScheduler()
+{
+    ui -> tableWidget -> clearContents();
+
+    QSqlQuery query;
+    query.exec("SELECT firstName, lastName FROM employees ORDER BY lastName");
+
+    QStringList employees = {};
+    int counter = 0;
+    while(query.next()){
+        employees.append(query.value(0).toString() + " " + query.value(1).toString());
+        counter++;
+
+        if(!query.isActive())
+            qWarning() << "ERROR: " << query.lastError().text();
+    }
+
+    ui -> tableWidget -> setRowCount(counter);
+    ui -> tableWidget -> setVerticalHeaderLabels(employees);
 }
 
 

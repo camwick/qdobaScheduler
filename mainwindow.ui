@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>750</width>
+    <width>846</width>
     <height>365</height>
    </rect>
   </property>
@@ -23,7 +23,7 @@
        </font>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="empAddPg">
        <layout class="QFormLayout" name="formLayout">
@@ -184,7 +184,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>750</width>
+     <width>846</width>
      <height>21</height>
     </rect>
    </property>
