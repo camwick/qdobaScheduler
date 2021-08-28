@@ -59,8 +59,15 @@ void MainWindow::on_empRemoveBtn_clicked()
 
     while(query.next()){
         if(query.value(1) == nameParts[0]){
+            QString foreignKey = query.value(0).toString();
+
             query.prepare("DELETE FROM employees where firstName = ?");
             query.addBindValue(nameParts[0]);
+            if(!query.exec())
+                qWarning() << "empRemoveBtn in While ERROR: " << query.lastError();
+
+            query.prepare("DELETE FROM schedule where id = ?");
+            query.addBindValue(foreignKey);
             if(!query.exec())
                 qWarning() << "empRemoveBtn in While ERROR: " << query.lastError();
         }
