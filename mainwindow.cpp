@@ -51,8 +51,6 @@ void MainWindow::on_empRemoveBtn_clicked()
     QString fullName = ui -> empRemoveComboBox -> currentText();
     QStringList nameParts = fullName.split(" ");
 
-    qDebug() << nameParts;
-
     QSqlQuery query;
     query.prepare("SELECT * FROM employees WHERE lastName = ?");
     query.addBindValue(nameParts[1]);
@@ -87,10 +85,27 @@ void MainWindow::on_empAddBtn_clicked()
     else{
         QSqlQuery query;
 
+        // insert new employee records
         query.prepare("INSERT INTO employees (firstName, lastName) VALUES (:first, :last)");
         query.bindValue(":first", first);
         query.bindValue(":last", last);
         query.exec();
+
+        // get employee id
+        query.prepare("SELECT * FROM employees WHERE lastName = ?");
+        query.addBindValue(last);
+        if(!query.exec())
+            qWarning() << "Insert employee Error: " << query.lastError();
+
+        while(query.next()){
+            if(query.value(1) == first){
+                QString foreignKey = query.value(0).toString();
+                query.prepare("INSERT INTO schedule (id) VALUES (:id)");
+                query.bindValue(":id", foreignKey);
+                if(!query.exec())
+                    qWarning() << "Insert new schedule Error: " << query.lastError();
+            }
+        }
 
         if(!query.isActive())
             qWarning() << "ERROR: " << query.lastError().text();
