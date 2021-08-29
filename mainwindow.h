@@ -7,6 +7,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QMessageBox>
+#include <QTextDocument>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

@@ -230,7 +230,6 @@ void MainWindow::updateScheduler()
     ui -> tableWidget -> setVerticalHeaderLabels(employees);
 
     // update values from db to table
-    //ui -> tableWidget -> setItem(0, 0, new QTableWidgetItem("test"));
     query.prepare("SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM schedule WHERE id = ?");
     for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
         query.addBindValue(employeeIDs[i]);
@@ -239,8 +238,12 @@ void MainWindow::updateScheduler()
             qWarning() << "updateScheduler select * Error: " << query.lastError();
 
         while(query.next())
-            for(int j = 0; j < 7; j++)
+            for(int j = 0; j < 7; j++){
                 ui -> tableWidget -> setItem(i, j, new QTableWidgetItem(query.value(j).toString()));
+
+                if(query.value(j).toString() == "Off")
+                    ui -> tableWidget -> item(i, j) -> setBackground(Qt::red);
+            }
     }
 }
 
