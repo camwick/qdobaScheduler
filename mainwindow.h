@@ -39,5 +39,6 @@ private:
 
     void updateRemoveComboBox();
     void updateScheduler();
+    void saveSchedule();
 };
 #endif // MAINWINDOW_H

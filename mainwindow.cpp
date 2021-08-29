@@ -30,6 +30,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    // saving tableWidget contents to database
+    MainWindow::saveSchedule();
+
     delete ui;
 }
 
@@ -78,6 +81,8 @@ void MainWindow::on_empRemoveBtn_clicked()
             query.addBindValue(foreignKey);
             if(!query.exec())
                 qWarning() << "empRemoveBtn in While ERROR: " << query.lastError();
+
+            break;
         }
     }
 
@@ -123,6 +128,8 @@ void MainWindow::on_empAddBtn_clicked()
                 query.bindValue(":id", foreignKey);
                 if(!query.exec())
                     qWarning() << "Insert new schedule Error: " << query.lastError();
+
+                break;
             }
         }
 
@@ -189,5 +196,46 @@ void MainWindow::updateScheduler()
     ui -> tableWidget -> setVerticalHeaderLabels(employees);
 }
 
+void MainWindow::saveSchedule()
+{
+    QSqlQuery query;
+    QStringList employeeIDs = {};
+    QStringList tableValues = {};
+    //QStringList bindValues = {":mon", ":tues", ":wednes", ":thurs", ":fri", ":sat", ":sun"};
+
+    if(!query.exec("SELECT id FROM schedule"))
+        qWarning() << "saveSchedule get IDs Error: " << query.lastError();
+
+    while(query.next())
+        employeeIDs.append(query.value(0).toString());
 
 
+    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
+        for(int j = 0; j < 7; j++){
+            if(ui -> tableWidget -> item(i, j) == nullptr){
+                tableValues.append(NULL);
+            }
+            else{
+                tableValues.append(ui -> tableWidget -> item(i, j) -> text());
+            }
+        }
+    }
+
+    query.prepare("UPDATE schedule SET monday = :mon, tuesday = :tues, wednesday = :wednes, thursday = :thurs, friday = :fri, saturday = :sat, sunday = :sun WHERE id = :id");
+    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
+        query.bindValue(":id", employeeIDs[i]);
+
+        for(int j = 0; j < 7; j++){
+            query.bindValue(":mon", tableValues[7 * i + j++]);
+            query.bindValue(":tues", tableValues[7 * i + j++]);
+            query.bindValue(":wednes", tableValues[7 * i + j++]);
+            query.bindValue(":thurs", tableValues[7 * i + j++]);
+            query.bindValue(":fri", tableValues[7 * i + j++]);
+            query.bindValue(":sat", tableValues[7 * i + j++]);
+            query.bindValue(":sun", tableValues[7 * i + j++]);
+        }
+
+        if(!query.exec())
+            qWarning() << "saveSchedule update Error: " << query.lastError();
+    }
+}
