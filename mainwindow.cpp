@@ -144,6 +144,11 @@ void MainWindow::on_empAddBtn_clicked()
     }
 }
 
+void MainWindow::on_pushButton_clicked()
+{
+    ui -> tableWidget -> clearContents();
+}
+
 // return press functions
 void MainWindow::on_empAddLNLineEdit_returnPressed()
 {

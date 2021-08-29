@@ -135,6 +135,13 @@
       <widget class="QWidget" name="schedulerPg">
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>Clear Cells</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QTableWidget" name="tableWidget">
           <column>
            <property name="text">
@@ -236,6 +243,9 @@
   <action name="actionScheduler">
    <property name="text">
     <string>Scheduler</string>
+   </property>
+   <property name="statusTip">
+    <string>Edit schedules of employees</string>
    </property>
   </action>
  </widget>
