@@ -172,6 +172,11 @@ void MainWindow::on_scheduleSetOff_clicked()
     }
 }
 
+void MainWindow::on_schedulePrint_clicked()
+{
+
+}
+
 // return press functions
 void MainWindow::on_empAddLNLineEdit_returnPressed()
 {

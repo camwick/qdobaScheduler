@@ -159,7 +159,20 @@
          </widget>
         </item>
         <item>
+         <widget class="QPushButton" name="schedulePrint">
+          <property name="statusTip">
+           <string>Print table</string>
+          </property>
+          <property name="text">
+           <string>Print</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QTableWidget" name="tableWidget">
+          <property name="statusTip">
+           <string>Employee Schedule</string>
+          </property>
           <column>
            <property name="text">
             <string>Monday:</string>

@@ -37,6 +37,8 @@ private slots:
 
     void on_scheduleSetOff_clicked();
 
+    void on_schedulePrint_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
