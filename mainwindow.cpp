@@ -177,23 +177,38 @@ void MainWindow::updateScheduler()
 
     // get names from database
     QSqlQuery query;
-    query.exec("SELECT firstName, lastName FROM employees ORDER BY lastName");
+    query.exec("SELECT id, firstName, lastName FROM employees ORDER BY lastName");
     QStringList employees = {};
+    QStringList employeeIDs = {};
     int counter = 0;
 
     // creating name list
     while(query.next()){
-        employees.append(query.value(0).toString() + " " + query.value(1).toString());
+        employeeIDs.append(query.value(0).toString());
+        employees.append(query.value(1).toString() + " " + query.value(2).toString());
         counter++;
 
         if(!query.isActive())
             qWarning() << "ERROR: " << query.lastError().text();
     }
 
-
     // update tableWidget headers
     ui -> tableWidget -> setRowCount(counter);
     ui -> tableWidget -> setVerticalHeaderLabels(employees);
+
+    // update values from db to table
+    //ui -> tableWidget -> setItem(0, 0, new QTableWidgetItem("test"));
+    query.prepare("SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM schedule WHERE id = ?");
+    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
+        query.addBindValue(employeeIDs[i]);
+
+        if(!query.exec())
+            qWarning() << "updateScheduler select * Error: " << query.lastError();
+
+        while(query.next())
+            for(int j = 0; j < 7; j++)
+                ui -> tableWidget -> setItem(i, j, new QTableWidgetItem(query.value(j).toString()));
+    }
 }
 
 void MainWindow::saveSchedule()
@@ -201,14 +216,12 @@ void MainWindow::saveSchedule()
     QSqlQuery query;
     QStringList employeeIDs = {};
     QStringList tableValues = {};
-    //QStringList bindValues = {":mon", ":tues", ":wednes", ":thurs", ":fri", ":sat", ":sun"};
 
-    if(!query.exec("SELECT id FROM schedule"))
+    if(!query.exec("SELECT id FROM employees ORDER BY lastName"))
         qWarning() << "saveSchedule get IDs Error: " << query.lastError();
 
     while(query.next())
         employeeIDs.append(query.value(0).toString());
-
 
     for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
         for(int j = 0; j < 7; j++){
