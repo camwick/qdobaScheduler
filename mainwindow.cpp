@@ -223,17 +223,16 @@ void MainWindow::saveSchedule()
 
     query.prepare("UPDATE schedule SET monday = :mon, tuesday = :tues, wednesday = :wednes, thursday = :thurs, friday = :fri, saturday = :sat, sunday = :sun WHERE id = :id");
     for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
-        query.bindValue(":id", employeeIDs[i]);
+        int j = 0;
 
-        for(int j = 0; j < 7; j++){
-            query.bindValue(":mon", tableValues[7 * i + j++]);
-            query.bindValue(":tues", tableValues[7 * i + j++]);
-            query.bindValue(":wednes", tableValues[7 * i + j++]);
-            query.bindValue(":thurs", tableValues[7 * i + j++]);
-            query.bindValue(":fri", tableValues[7 * i + j++]);
-            query.bindValue(":sat", tableValues[7 * i + j++]);
-            query.bindValue(":sun", tableValues[7 * i + j++]);
-        }
+        query.bindValue(":id", employeeIDs[i]);
+        query.bindValue(":mon", tableValues[7 * i + j++]);
+        query.bindValue(":tues", tableValues[7 * i + j++]);
+        query.bindValue(":wednes", tableValues[7 * i + j++]);
+        query.bindValue(":thurs", tableValues[7 * i + j++]);
+        query.bindValue(":fri", tableValues[7 * i + j++]);
+        query.bindValue(":sat", tableValues[7 * i + j++]);
+        query.bindValue(":sun", tableValues[7 * i + j++]);
 
         if(!query.exec())
             qWarning() << "saveSchedule update Error: " << query.lastError();
