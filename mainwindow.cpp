@@ -144,9 +144,32 @@ void MainWindow::on_empAddBtn_clicked()
     }
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_scheduleClearCells_clicked()
 {
-    ui -> tableWidget -> clearContents();
+    // clears content from all the cells
+    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
+        for(int j = 0; j < 7; j++){
+            ui -> tableWidget -> item(i, j) -> setText("");
+            ui -> tableWidget -> item(i, j) -> setBackground(Qt::NoBrush);
+        }
+    }
+
+    /* Note:
+     * clearContent() cannot be used due to MainWindow::on_pushButton_2_clicked() below.
+     * The selectedItems() function utlized by on_pushButton_2_clicked() needs content
+     * in the cell to work correctly. clearContent() sets all cells to nullptr and won't
+     * be returned with selectedItems().
+     */
+}
+
+void MainWindow::on_scheduleSetOff_clicked()
+{
+    QList selectedValues = ui -> tableWidget -> selectedItems();
+
+    for(int i = 0; i < selectedValues.size(); i++){
+        selectedValues[i] -> setText("Off");
+        selectedValues[i] -> setBackground(Qt::red);
+    }
 }
 
 // return press functions

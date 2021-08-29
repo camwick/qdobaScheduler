@@ -135,9 +135,22 @@
       <widget class="QWidget" name="schedulerPg">
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="scheduleClearCells">
+          <property name="statusTip">
+           <string>Clears all cells</string>
+          </property>
           <property name="text">
            <string>Clear Cells</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="scheduleSetOff">
+          <property name="statusTip">
+           <string>Select multiple cells then click button to set 'Off'</string>
+          </property>
+          <property name="text">
+           <string>Set Off</string>
           </property>
          </widget>
         </item>

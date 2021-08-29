@@ -33,7 +33,9 @@ private slots:
 
     void on_empAddLNLineEdit_returnPressed();
 
-    void on_pushButton_clicked();
+    void on_scheduleClearCells_clicked();
+
+    void on_scheduleSetOff_clicked();
 
 private:
     Ui::MainWindow *ui;
