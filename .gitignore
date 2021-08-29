@@ -73,3 +73,6 @@ Thumbs.db
 
 # database file
 qdobaEmployees.db
+
+# ico file
+.ico
