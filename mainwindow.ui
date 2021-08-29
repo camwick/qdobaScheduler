@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Qdoba Scheduler Assistant</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>qLogo.ico</normaloff>qLogo.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
