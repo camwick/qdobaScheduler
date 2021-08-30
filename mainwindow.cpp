@@ -257,6 +257,15 @@ void MainWindow::on_schedulePrint_clicked()
         out << table;
         file.close();
     }
+
+    // haven't been able to get the printing to line up correctly
+//    QTextDocument document = QTextDocument(table, this);
+
+//    QPrinter printer;
+//    QPrintDialog dialog(&printer, this);
+//    if(dialog.exec() == QDialog::Rejected)
+//        return;
+//    document.print(&printer);
 }
 
 // return press functions

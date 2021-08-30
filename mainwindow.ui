@@ -161,10 +161,10 @@
         <item>
          <widget class="QPushButton" name="schedulePrint">
           <property name="statusTip">
-           <string>Print table</string>
+           <string>Saves table to a text document in parent directory</string>
           </property>
           <property name="text">
-           <string>Print</string>
+           <string>Save text file</string>
           </property>
          </widget>
         </item>
