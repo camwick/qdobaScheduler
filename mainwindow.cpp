@@ -174,7 +174,98 @@ void MainWindow::on_scheduleSetOff_clicked()
 
 void MainWindow::on_schedulePrint_clicked()
 {
+//    QPdfWriter writer("employees.pdf");
+//    writer.setPageSize(QPageSize::A4);
+//    writer.setPageMargins(QMargins(30,30,30,30));
 
+//    QPainter painter(&writer);
+//    painter.setPen(Qt::black);
+//    painter.setFont(QFont("Times", 14));
+
+    QStringList employeeNames = {};
+    QStringList rowData = {};
+    QStringList days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+
+    // get employee names and row data
+    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
+        employeeNames.append(ui -> tableWidget -> verticalHeaderItem(i) -> text());
+
+        for(int j = 0; j < 7; j++){
+            rowData.append(ui -> tableWidget -> item(i, j) -> text());
+        }
+    }
+
+    // find longest character length of names
+    int max = 0;
+    for(int i = 0; i < employeeNames.length(); i++){
+        if(employeeNames[i].length() > max)
+            max = employeeNames[i].length();
+        qDebug() << max;
+    }
+    max += 2;
+    qDebug() << "Total spaces: " << max;
+
+    QString table = "";
+    double totalSpaces = 11;
+    for(int i = 0; i < max; i++)
+        table.append(" ");
+    table.append("|");
+
+    for(int i = 0; i < 7; i++){
+        double spaceLeft = totalSpaces - days[i].length();
+        int preSpace = qFloor(spaceLeft / 2);
+        int postSpace = qCeil(spaceLeft / 2);
+
+        for(int j = 0; j < preSpace; j++)
+            table.append(" ");
+        table.append(days[i]);
+        for(int j = 0; j < postSpace; j++)
+            table.append(" ");
+
+        table.append("|");
+    }
+    table.append("\n");
+
+    for(int i = 0; i < max + 85; i++)
+        table.append("-");
+    table.append("\n");
+
+    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
+        table.append(employeeNames[i]);
+
+        int spaceAfterName = max - employeeNames[i].length();
+        for(int j = 0; j < spaceAfterName; j++)
+            table.append(" ");
+        table.append("|");
+
+        for(int j = 0; j < 7; j++){
+            double spaceLeft = totalSpaces - rowData[7 * i + j].length();
+            int preSpace = floor(spaceLeft / 2);
+            int postSpace = ceil(spaceLeft / 2);
+
+            for(int j = 0; j < preSpace; j++)
+                table.append(" ");
+            table.append(rowData[7 * i + j]);
+            for(int j = 0; j < postSpace; j++)
+                table.append(" ");
+
+            table.append("|");
+        }
+
+        table.append("\n");
+        for(int i = 0; i < max + 85; i++)
+            table.append("-");
+        table.append("\n");
+    }
+
+    QFile file("schedule.txt");
+    if(!file.open(QIODevice::WriteOnly))
+        file.close();
+    else{
+        QTextStream out(&file);
+        out << table;
+        file.close();
+    }
 }
 
 // return press functions
