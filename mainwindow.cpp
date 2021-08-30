@@ -174,14 +174,6 @@ void MainWindow::on_scheduleSetOff_clicked()
 
 void MainWindow::on_schedulePrint_clicked()
 {
-//    QPdfWriter writer("employees.pdf");
-//    writer.setPageSize(QPageSize::A4);
-//    writer.setPageMargins(QMargins(30,30,30,30));
-
-//    QPainter painter(&writer);
-//    painter.setPen(Qt::black);
-//    painter.setFont(QFont("Times", 14));
-
     QStringList employeeNames = {};
     QStringList rowData = {};
     QStringList days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
@@ -200,10 +192,8 @@ void MainWindow::on_schedulePrint_clicked()
     for(int i = 0; i < employeeNames.length(); i++){
         if(employeeNames[i].length() > max)
             max = employeeNames[i].length();
-        qDebug() << max;
     }
     max += 2;
-    qDebug() << "Total spaces: " << max;
 
     QString table = "";
     double totalSpaces = 11;
@@ -258,6 +248,7 @@ void MainWindow::on_schedulePrint_clicked()
         table.append("\n");
     }
 
+    // create and save txt file
     QFile file("schedule.txt");
     if(!file.open(QIODevice::WriteOnly))
         file.close();

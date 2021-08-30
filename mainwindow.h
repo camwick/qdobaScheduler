@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QTextStream>
+#include <QProcess>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
