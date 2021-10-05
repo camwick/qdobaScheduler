@@ -274,6 +274,12 @@ void MainWindow::on_empAddLNLineEdit_returnPressed()
     MainWindow::on_empAddBtn_clicked();
 }
 
+void MainWindow::on_empAddFNLineEdit_returnPressed()
+{
+    MainWindow::on_empAddBtn_clicked();
+}
+
+
 // custom functions
 void MainWindow::updateRemoveComboBox()
 {

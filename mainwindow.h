@@ -44,6 +44,8 @@ private slots:
 
     void on_schedulePrint_clicked();
 
+    void on_empAddFNLineEdit_returnPressed();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
