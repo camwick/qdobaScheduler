@@ -46,11 +46,15 @@ private slots:
 
     void on_empAddFNLineEdit_returnPressed();
 
-    void on_pushButton_2_clicked();
+    void on_gHighlightBtn_clicked();
 
-    void on_pushButton_clicked();
+    void on_cHighlightBtn_clicked();
 
-    void on_pushButton_3_clicked();
+    void on_yHighlightBtn_clicked();
+
+    void on_actionMass_Add_triggered();
+
+    void on_massEmpAddBtn_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -169,21 +169,21 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="gHighlightBtn">
           <property name="text">
            <string>Green</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="cHighlightBtn">
           <property name="text">
            <string>Blue</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="yHighlightBtn">
           <property name="text">
            <string>Yellow</string>
           </property>
@@ -233,6 +233,33 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="empMassEmpBaddPg">
+       <widget class="QWidget" name="gridLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>1291</width>
+          <height>611</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="1" column="0">
+          <widget class="QTextEdit" name="massEmpAddTextEdit"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="massEmpAddBtn">
+           <property name="toolTip">
+            <string>Adds all employees</string>
+           </property>
+           <property name="text">
+            <string>Add Employees</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -251,6 +278,7 @@
      <string>Employees</string>
     </property>
     <addaction name="actionAdd"/>
+    <addaction name="actionMass_Add"/>
     <addaction name="actionRemove"/>
    </widget>
    <widget class="QMenu" name="menuScheduler">
@@ -297,6 +325,17 @@
    </property>
    <property name="statusTip">
     <string>Edit schedules of employees</string>
+   </property>
+  </action>
+  <action name="actionMass_Add">
+   <property name="text">
+    <string>Mass Add</string>
+   </property>
+   <property name="statusTip">
+    <string>Add multiple employees</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+A</string>
    </property>
   </action>
  </widget>

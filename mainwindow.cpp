@@ -52,6 +52,11 @@ void MainWindow::on_actionScheduler_triggered()
     ui -> stackedWidget -> setCurrentIndex(2);
 }
 
+void MainWindow::on_actionMass_Add_triggered()
+{
+    ui -> stackedWidget -> setCurrentIndex(3);
+}
+
 // window button functions
 void MainWindow::on_empRemoveBtn_clicked()
 {
@@ -294,7 +299,7 @@ void MainWindow::saveSchedule()
     }
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_gHighlightBtn_clicked()
 {
     QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
 
@@ -304,7 +309,7 @@ void MainWindow::on_pushButton_2_clicked()
 }
 
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_cHighlightBtn_clicked()
 {
     QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
 
@@ -314,12 +319,22 @@ void MainWindow::on_pushButton_clicked()
 }
 
 
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_yHighlightBtn_clicked()
 {
     QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
-
     for(int i = 0; i < selectedValues.size(); i++){
         selectedValues[i] -> setBackground(Qt::yellow);
     }
+}
+
+
+
+
+
+void MainWindow::on_massEmpAddBtn_clicked()
+{
+    QString test = ui -> massEmpAddTextEdit -> toPlainText();
+    QStringList test2 = test.split("\n");
+    qWarning() << test2;
 }
 
