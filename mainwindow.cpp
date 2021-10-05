@@ -182,6 +182,93 @@ void MainWindow::on_schedulePrint_clicked()
     MainWindow::saveSchedule();
 }
 
+void MainWindow::on_gHighlightBtn_clicked()
+{
+    QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
+
+    for(int i = 0; i < selectedValues.size(); i++){
+        selectedValues[i] -> setBackground(Qt::green);
+    }
+}
+
+
+void MainWindow::on_cHighlightBtn_clicked()
+{
+    QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
+
+    for(int i = 0; i < selectedValues.size(); i++){
+        selectedValues[i] -> setBackground(Qt::cyan);
+    }
+}
+
+
+void MainWindow::on_yHighlightBtn_clicked()
+{
+    QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
+    for(int i = 0; i < selectedValues.size(); i++){
+        selectedValues[i] -> setBackground(Qt::yellow);
+    }
+}
+
+void MainWindow::on_massEmpAddBtn_clicked()
+{
+    // get text from QTextEdit
+    QString plainText = ui -> massEmpAddTextEdit -> toPlainText();
+    QStringList empNames = plainText.split("\n");
+
+    // split empNames to useable name parts
+    QStringList nameParts;
+    for(int i = 0; i < empNames.length(); i++){
+        QStringList temp = empNames[i].split(" ");
+
+        for(int j = 0; j < temp.length(); j++){
+            temp[j] = temp[j].trimmed();
+
+            if(temp[j] == "")
+                continue;
+            else
+                nameParts.append(temp[j]);
+        }
+    }
+
+    // run queries
+    for(int i = 0; i < nameParts.length(); i+=2){
+        QSqlQuery query;
+
+        // insert new employee records
+        query.prepare("INSERT INTO employees (firstName, lastName) VALUES (:first, :last)");
+        query.bindValue(":first", nameParts[i]);
+        query.bindValue(":last", nameParts[i+1]);
+        query.exec();
+
+        // get employee id
+        query.prepare("SELECT * FROM employees WHERE lastName = ?");
+        query.addBindValue(nameParts[i+1]);
+        if(!query.exec())
+            qWarning() << "Insert employee Error: " << query.lastError();
+
+        // insert new employee and schedule records
+        while(query.next()){
+            if(query.value(1) == nameParts[i]){
+                QString foreignKey = query.value(0).toString();
+                query.prepare("INSERT INTO schedule (id) VALUES (:id)");
+                query.bindValue(":id", foreignKey);
+                if(!query.exec())
+                    qWarning() << "Insert new schedule Error: " << query.lastError();
+
+                break;
+            }
+        }
+
+        if(!query.isActive())
+            qWarning() << "ERROR: " << query.lastError().text();
+    }
+
+    // clear text fields and update window elements dependent of SQL records
+    updateScheduler();
+    ui -> massEmpAddTextEdit -> clear();
+}
+
 // return press functions
 void MainWindow::on_empAddLNLineEdit_returnPressed()
 {
@@ -192,7 +279,6 @@ void MainWindow::on_empAddFNLineEdit_returnPressed()
 {
     MainWindow::on_empAddBtn_clicked();
 }
-
 
 // custom functions
 void MainWindow::updateRemoveComboBox()
@@ -298,91 +384,3 @@ void MainWindow::saveSchedule()
             qWarning() << "saveSchedule update Error: " << query.lastError();
     }
 }
-
-void MainWindow::on_gHighlightBtn_clicked()
-{
-    QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
-
-    for(int i = 0; i < selectedValues.size(); i++){
-        selectedValues[i] -> setBackground(Qt::green);
-    }
-}
-
-
-void MainWindow::on_cHighlightBtn_clicked()
-{
-    QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
-
-    for(int i = 0; i < selectedValues.size(); i++){
-        selectedValues[i] -> setBackground(Qt::cyan);
-    }
-}
-
-
-void MainWindow::on_yHighlightBtn_clicked()
-{
-    QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
-    for(int i = 0; i < selectedValues.size(); i++){
-        selectedValues[i] -> setBackground(Qt::yellow);
-    }
-}
-
-void MainWindow::on_massEmpAddBtn_clicked()
-{
-    // get text from QTextEdit
-    QString plainText = ui -> massEmpAddTextEdit -> toPlainText();
-    QStringList empNames = plainText.split("\n");
-
-    // split empNames to useable name parts
-    QStringList nameParts;
-    for(int i = 0; i < empNames.length(); i++){
-        QStringList temp = empNames[i].split(" ");
-
-        for(int j = 0; j < temp.length(); j++){
-            temp[j] = temp[j].trimmed();
-
-            if(temp[j] == "")
-                continue;
-            else
-                nameParts.append(temp[j]);
-        }
-    }
-
-    // run queries
-    for(int i = 0; i < nameParts.length(); i+=2){
-        QSqlQuery query;
-
-        // insert new employee records
-        query.prepare("INSERT INTO employees (firstName, lastName) VALUES (:first, :last)");
-        query.bindValue(":first", nameParts[i]);
-        query.bindValue(":last", nameParts[i+1]);
-        query.exec();
-
-        // get employee id
-        query.prepare("SELECT * FROM employees WHERE lastName = ?");
-        query.addBindValue(nameParts[i+1]);
-        if(!query.exec())
-            qWarning() << "Insert employee Error: " << query.lastError();
-
-        // insert new employee and schedule records
-        while(query.next()){
-            if(query.value(1) == nameParts[i]){
-                QString foreignKey = query.value(0).toString();
-                query.prepare("INSERT INTO schedule (id) VALUES (:id)");
-                query.bindValue(":id", foreignKey);
-                if(!query.exec())
-                    qWarning() << "Insert new schedule Error: " << query.lastError();
-
-                break;
-            }
-        }
-
-        if(!query.isActive())
-            qWarning() << "ERROR: " << query.lastError().text();
-    }
-
-    // clear text fields and update window elements dependent of SQL records
-    updateScheduler();
-    ui -> massEmpAddTextEdit -> clear();
-}
-
