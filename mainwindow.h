@@ -9,9 +9,6 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QTextStream>
-//#include <QPrinter>
-//#include <QtPrintSupport>
-//#include <QTextDocument>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -63,5 +60,6 @@ private:
     void updateRemoveComboBox();
     void updateScheduler();
     void saveSchedule();
+    void addEmployee(QString first, QString last);
 };
 #endif // MAINWINDOW_H

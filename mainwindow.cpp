@@ -111,41 +111,12 @@ void MainWindow::on_empAddBtn_clicked()
         warning.exec();
     }
     else{
-        QSqlQuery query;
-
-        // insert new employee records
-        query.prepare("INSERT INTO employees (firstName, lastName) VALUES (:first, :last)");
-        query.bindValue(":first", first);
-        query.bindValue(":last", last);
-        query.exec();
-
-        // get employee id
-        query.prepare("SELECT * FROM employees WHERE lastName = ?");
-        query.addBindValue(last);
-        if(!query.exec())
-            qWarning() << "Insert employee Error: " << query.lastError();
-
-        // insert new employee and schedule records
-        while(query.next()){
-            if(query.value(1) == first){
-                QString foreignKey = query.value(0).toString();
-                query.prepare("INSERT INTO schedule (id) VALUES (:id)");
-                query.bindValue(":id", foreignKey);
-                if(!query.exec())
-                    qWarning() << "Insert new schedule Error: " << query.lastError();
-
-                break;
-            }
-        }
-
-        if(!query.isActive())
-            qWarning() << "ERROR: " << query.lastError().text();
+        MainWindow::addEmployee(first, last);
 
         // clear text fields and update window elements dependent of SQL records
         ui -> empAddFNLineEdit -> clear();
         ui -> empAddLNLineEdit -> clear();
         updateRemoveComboBox();
-        updateScheduler();
     }
 }
 
@@ -233,39 +204,11 @@ void MainWindow::on_massEmpAddBtn_clicked()
 
     // run queries
     for(int i = 0; i < nameParts.length(); i+=2){
-        QSqlQuery query;
-
-        // insert new employee records
-        query.prepare("INSERT INTO employees (firstName, lastName) VALUES (:first, :last)");
-        query.bindValue(":first", nameParts[i]);
-        query.bindValue(":last", nameParts[i+1]);
-        query.exec();
-
-        // get employee id
-        query.prepare("SELECT * FROM employees WHERE lastName = ?");
-        query.addBindValue(nameParts[i+1]);
-        if(!query.exec())
-            qWarning() << "Insert employee Error: " << query.lastError();
-
-        // insert new employee and schedule records
-        while(query.next()){
-            if(query.value(1) == nameParts[i]){
-                QString foreignKey = query.value(0).toString();
-                query.prepare("INSERT INTO schedule (id) VALUES (:id)");
-                query.bindValue(":id", foreignKey);
-                if(!query.exec())
-                    qWarning() << "Insert new schedule Error: " << query.lastError();
-
-                break;
-            }
-        }
-
-        if(!query.isActive())
-            qWarning() << "ERROR: " << query.lastError().text();
+        MainWindow::addEmployee(nameParts[i], nameParts[i+1]);
     }
 
     // clear text fields and update window elements dependent of SQL records
-    updateScheduler();
+
     ui -> massEmpAddTextEdit -> clear();
 }
 
@@ -383,4 +326,39 @@ void MainWindow::saveSchedule()
         if(!query.exec())
             qWarning() << "saveSchedule update Error: " << query.lastError();
     }
+}
+
+void MainWindow::addEmployee(QString first, QString last)
+{
+    QSqlQuery query;
+
+    // insert new employee records
+    query.prepare("INSERT INTO employees (firstName, lastName) VALUES (:first, :last)");
+    query.bindValue(":first", first);
+    query.bindValue(":last", last);
+    query.exec();
+
+    // get employee id
+    query.prepare("SELECT * FROM employees WHERE lastName = ?");
+    query.addBindValue(last);
+    if(!query.exec())
+        qWarning() << "Insert employee Error: " << query.lastError();
+
+    // insert new employee and schedule records
+    while(query.next()){
+        if(query.value(1) == first){
+            QString foreignKey = query.value(0).toString();
+            query.prepare("INSERT INTO schedule (id) VALUES (:id)");
+            query.bindValue(":id", foreignKey);
+            if(!query.exec())
+                qWarning() << "Insert new schedule Error: " << query.lastError();
+
+            break;
+        }
+    }
+
+    if(!query.isActive())
+        qWarning() << "ERROR: " << query.lastError().text();
+
+    updateScheduler();
 }
