@@ -161,10 +161,31 @@
         <item>
          <widget class="QPushButton" name="schedulePrint">
           <property name="statusTip">
-           <string>Saves table to a text document in parent directory</string>
+           <string>Saves table</string>
           </property>
           <property name="text">
            <string>Save</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="text">
+           <string>Green</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>Blue</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_3">
+          <property name="text">
+           <string>Yellow</string>
           </property>
          </widget>
         </item>

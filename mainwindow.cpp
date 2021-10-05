@@ -176,11 +176,6 @@ void MainWindow::on_schedulePrint_clicked()
 {
     MainWindow::saveSchedule();
 
-
-
-
-
-
     /*QStringList employeeNames = {};
     QStringList rowData = {};
     QStringList days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
@@ -382,3 +377,33 @@ void MainWindow::saveSchedule()
             qWarning() << "saveSchedule update Error: " << query.lastError();
     }
 }
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
+
+    for(int i = 0; i < selectedValues.size(); i++){
+        selectedValues[i] -> setBackground(Qt::green);
+    }
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
+
+    for(int i = 0; i < selectedValues.size(); i++){
+        selectedValues[i] -> setBackground(Qt::cyan);
+    }
+}
+
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
+
+    for(int i = 0; i < selectedValues.size(); i++){
+        selectedValues[i] -> setBackground(Qt::yellow);
+    }
+}
+
