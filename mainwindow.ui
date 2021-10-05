@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>977</width>
+    <width>1314</width>
     <height>678</height>
    </rect>
   </property>
@@ -27,7 +27,7 @@
        </font>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="empAddPg">
        <layout class="QFormLayout" name="formLayout">
@@ -164,7 +164,7 @@
            <string>Saves table to a text document in parent directory</string>
           </property>
           <property name="text">
-           <string>Save text file</string>
+           <string>Save</string>
           </property>
          </widget>
         </item>
@@ -221,7 +221,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>977</width>
+     <width>1314</width>
      <height>21</height>
     </rect>
    </property>

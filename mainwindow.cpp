@@ -174,7 +174,14 @@ void MainWindow::on_scheduleSetOff_clicked()
 
 void MainWindow::on_schedulePrint_clicked()
 {
-    QStringList employeeNames = {};
+    MainWindow::saveSchedule();
+
+
+
+
+
+
+    /*QStringList employeeNames = {};
     QStringList rowData = {};
     QStringList days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
@@ -256,16 +263,7 @@ void MainWindow::on_schedulePrint_clicked()
         QTextStream out(&file);
         out << table;
         file.close();
-    }
-
-    // haven't been able to get the printing to line up correctly
-//    QTextDocument document = QTextDocument(table, this);
-
-//    QPrinter printer;
-//    QPrintDialog dialog(&printer, this);
-//    if(dialog.exec() == QDialog::Rejected)
-//        return;
-//    document.print(&printer);
+    }*/
 }
 
 // return press functions
