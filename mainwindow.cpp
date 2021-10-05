@@ -327,14 +327,62 @@ void MainWindow::on_yHighlightBtn_clicked()
     }
 }
 
-
-
-
-
 void MainWindow::on_massEmpAddBtn_clicked()
 {
-    QString test = ui -> massEmpAddTextEdit -> toPlainText();
-    QStringList test2 = test.split("\n");
-    qWarning() << test2;
+    QString plainText = ui -> massEmpAddTextEdit -> toPlainText();
+    QStringList empNames = plainText.split("\n");
+    qWarning() << empNames;
+
+    QStringList nameParts;
+    for(int i = 0; i < empNames.length(); i++){
+        QStringList temp = empNames[i].split(" ");
+
+        for(int j = 0; j < temp.length(); j++){
+            temp[j] = temp[j].trimmed();
+
+            if(temp[j] == "")
+                continue;
+            else
+                nameParts.append(temp[j]);
+        }
+    }
+    qWarning() << nameParts;
+
+
+    for(int i = 0; i < nameParts.length(); i+=2){
+        QSqlQuery query;
+
+        // insert new employee records
+        query.prepare("INSERT INTO employees (firstName, lastName) VALUES (:first, :last)");
+        query.bindValue(":first", nameParts[i]);
+        query.bindValue(":last", nameParts[i+1]);
+        query.exec();
+
+        // get employee id
+        query.prepare("SELECT * FROM employees WHERE lastName = ?");
+        query.addBindValue(nameParts[i+1]);
+        if(!query.exec())
+            qWarning() << "Insert employee Error: " << query.lastError();
+
+        // insert new employee and schedule records
+        while(query.next()){
+            if(query.value(1) == nameParts[i]){
+                QString foreignKey = query.value(0).toString();
+                query.prepare("INSERT INTO schedule (id) VALUES (:id)");
+                query.bindValue(":id", foreignKey);
+                if(!query.exec())
+                    qWarning() << "Insert new schedule Error: " << query.lastError();
+
+                break;
+            }
+        }
+
+        if(!query.isActive())
+            qWarning() << "ERROR: " << query.lastError().text();
+    }
+
+    // clear text fields and update window elements dependent of SQL records
+    updateScheduler();
+    ui -> massEmpAddTextEdit -> clear();
 }
 
