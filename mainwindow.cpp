@@ -329,10 +329,11 @@ void MainWindow::on_yHighlightBtn_clicked()
 
 void MainWindow::on_massEmpAddBtn_clicked()
 {
+    // get text from QTextEdit
     QString plainText = ui -> massEmpAddTextEdit -> toPlainText();
     QStringList empNames = plainText.split("\n");
-    qWarning() << empNames;
 
+    // split empNames to useable name parts
     QStringList nameParts;
     for(int i = 0; i < empNames.length(); i++){
         QStringList temp = empNames[i].split(" ");
@@ -346,9 +347,8 @@ void MainWindow::on_massEmpAddBtn_clicked()
                 nameParts.append(temp[j]);
         }
     }
-    qWarning() << nameParts;
 
-
+    // run queries
     for(int i = 0; i < nameParts.length(); i+=2){
         QSqlQuery query;
 
