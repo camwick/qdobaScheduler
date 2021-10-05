@@ -164,7 +164,7 @@ void MainWindow::on_scheduleClearCells_clicked()
 
 void MainWindow::on_scheduleSetOff_clicked()
 {
-    QList selectedValues = ui -> tableWidget -> selectedItems();
+    QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
 
     for(int i = 0; i < selectedValues.size(); i++){
         selectedValues[i] -> setText("Off");
