@@ -139,21 +139,21 @@
       <widget class="QWidget" name="schedulerPg">
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="scheduleClearCells">
           <property name="text">
            <string>Clear Cells</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="scheduleSetOff">
           <property name="text">
            <string>Set Off</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="schedulePrint">
           <property name="text">
            <string>Save</string>
           </property>
@@ -162,28 +162,31 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QPushButton" name="pushButton_4">
+           <widget class="QPushButton" name="setHighlightBtn">
             <property name="text">
              <string>Highlight</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton_3">
+           <widget class="QRadioButton" name="radioButton1">
             <property name="text">
              <string>Green</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton">
+           <widget class="QRadioButton" name="radioButton2">
             <property name="text">
              <string>Cyan</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton_2">
+           <widget class="QRadioButton" name="radioButton3">
             <property name="text">
              <string>Yellow</string>
             </property>
@@ -192,7 +195,38 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="tableWidget"/>
+         <widget class="QTableWidget" name="tableWidget">
+          <column>
+           <property name="text">
+            <string>Monday</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Tuesday</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Wednesday</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Friday</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Saturday</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Sunday</string>
+           </property>
+          </column>
+         </widget>
         </item>
        </layout>
       </widget>

@@ -26,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // set stacked widget to schedule page
     ui -> stackedWidget-> setCurrentIndex(2);
+
+    // set default green color highlighting
+    MainWindow::on_radioButton1_toggled(true);
 }
 
 MainWindow::~MainWindow()
@@ -120,23 +123,23 @@ void MainWindow::on_empAddBtn_clicked()
     }
 }
 
-void MainWindow::on_scheduleClearCells_clicked()
-{
-    // clears content from all the cells
-    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
-        for(int j = 0; j < 7; j++){
-            ui -> tableWidget -> item(i, j) -> setText("");
-            ui -> tableWidget -> item(i, j) -> setBackground(Qt::NoBrush);
-        }
-    }
+//void MainWindow::on_scheduleClearCells_clicked()
+//{
+//    // clears content from all the cells
+//    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
+//        for(int j = 0; j < 7; j++){
+//            ui -> tableWidget -> item(i, j) -> setText("");
+//            ui -> tableWidget -> item(i, j) -> setBackground(Qt::NoBrush);
+//        }
+//    }
 
-    /* Note:
-     * clearContent() cannot be used due to MainWindow::on_pushButton_2_clicked() below.
-     * The selectedItems() function utlized by on_pushButton_2_clicked() needs content
-     * in the cell to work correctly. clearContent() sets all cells to nullptr and won't
-     * be returned with selectedItems().
-     */
-}
+//    /* Note:
+//     * clearContent() cannot be used due to MainWindow::on_pushButton_2_clicked() below.
+//     * The selectedItems() function utlized by on_pushButton_2_clicked() needs content
+//     * in the cell to work correctly. clearContent() sets all cells to nullptr and won't
+//     * be returned with selectedItems().
+//     */
+//}
 
 void MainWindow::on_scheduleSetOff_clicked()
 {
@@ -151,34 +154,6 @@ void MainWindow::on_scheduleSetOff_clicked()
 void MainWindow::on_schedulePrint_clicked()
 {
     MainWindow::saveSchedule();
-}
-
-void MainWindow::on_gHighlightBtn_clicked()
-{
-    QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
-
-    for(int i = 0; i < selectedValues.size(); i++){
-        selectedValues[i] -> setBackground(Qt::green);
-    }
-}
-
-
-void MainWindow::on_cHighlightBtn_clicked()
-{
-    QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
-
-    for(int i = 0; i < selectedValues.size(); i++){
-        selectedValues[i] -> setBackground(Qt::cyan);
-    }
-}
-
-
-void MainWindow::on_yHighlightBtn_clicked()
-{
-    QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
-    for(int i = 0; i < selectedValues.size(); i++){
-        selectedValues[i] -> setBackground(Qt::yellow);
-    }
 }
 
 void MainWindow::on_massEmpAddBtn_clicked()
@@ -212,6 +187,15 @@ void MainWindow::on_massEmpAddBtn_clicked()
     ui -> massEmpAddTextEdit -> clear();
 }
 
+void MainWindow::on_setHighlightBtn_clicked()
+{
+    QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
+
+    for(int i = 0; i < selectedValues.size(); i++){
+        selectedValues[i] -> setBackground(color);
+    }
+}
+
 // return press functions
 void MainWindow::on_empAddLNLineEdit_returnPressed()
 {
@@ -221,6 +205,27 @@ void MainWindow::on_empAddLNLineEdit_returnPressed()
 void MainWindow::on_empAddFNLineEdit_returnPressed()
 {
     MainWindow::on_empAddBtn_clicked();
+}
+
+// radio button functions
+void MainWindow::on_radioButton1_toggled(bool checked)
+{
+    if(checked)
+        color = Qt::green;
+}
+
+
+void MainWindow::on_radioButton2_toggled(bool checked)
+{
+    if(checked)
+        color = Qt::cyan;
+}
+
+
+void MainWindow::on_radioButton3_toggled(bool checked)
+{
+    if(checked)
+        color = Qt::yellow;
 }
 
 // custom functions
@@ -362,3 +367,28 @@ void MainWindow::addEmployee(QString first, QString last)
 
     updateScheduler();
 }
+
+void MainWindow::on_scheduleClearCells_clicked()
+{
+    // clears content from all the cells
+    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
+        for(int j = 0; j < 7; j++){
+            ui -> tableWidget -> item(i, j) -> setText("");
+            ui -> tableWidget -> item(i, j) -> setBackground(Qt::NoBrush);
+        }
+    }
+
+    /* Note:
+     * clearContent() cannot be used due to MainWindow::on_pushButton_2_clicked() below.
+     * The selectedItems() function utlized by on_pushButton_2_clicked() needs content
+     * in the cell to work correctly. clearContent() sets all cells to nullptr and won't
+     * be returned with selectedItems().
+     */
+}
+
+
+
+
+
+
+

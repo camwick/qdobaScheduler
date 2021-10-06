@@ -35,27 +35,30 @@ private slots:
 
     void on_empAddLNLineEdit_returnPressed();
 
-    void on_scheduleClearCells_clicked();
-
     void on_scheduleSetOff_clicked();
 
     void on_schedulePrint_clicked();
 
     void on_empAddFNLineEdit_returnPressed();
 
-    void on_gHighlightBtn_clicked();
-
-    void on_cHighlightBtn_clicked();
-
-    void on_yHighlightBtn_clicked();
-
     void on_actionMass_Add_triggered();
 
     void on_massEmpAddBtn_clicked();
 
+    void on_scheduleClearCells_clicked();
+
+    void on_setHighlightBtn_clicked();
+
+    void on_radioButton1_toggled(bool checked);
+
+    void on_radioButton2_toggled(bool checked);
+
+    void on_radioButton3_toggled(bool checked);
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
+    QColor color;
 
     void updateRemoveComboBox();
     void updateScheduler();
