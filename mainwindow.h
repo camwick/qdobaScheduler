@@ -37,8 +37,6 @@ private slots:
 
     void on_scheduleSetOff_clicked();
 
-    void on_schedulePrint_clicked();
-
     void on_empAddFNLineEdit_returnPressed();
 
     void on_actionMass_Add_triggered();
@@ -54,6 +52,8 @@ private slots:
     void on_radioButton2_toggled(bool checked);
 
     void on_radioButton3_toggled(bool checked);
+
+    void on_actionSave_Schedule_triggered();
 
 private:
     Ui::MainWindow *ui;

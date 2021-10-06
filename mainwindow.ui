@@ -140,6 +140,9 @@
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QPushButton" name="scheduleClearCells">
+          <property name="statusTip">
+           <string>Clear all cell contents and highlighting</string>
+          </property>
           <property name="text">
            <string>Clear Cells</string>
           </property>
@@ -147,15 +150,11 @@
         </item>
         <item>
          <widget class="QPushButton" name="scheduleSetOff">
+          <property name="statusTip">
+           <string>Set selected cells to off + red highlighting</string>
+          </property>
           <property name="text">
            <string>Set Off</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="schedulePrint">
-          <property name="text">
-           <string>Save</string>
           </property>
          </widget>
         </item>
@@ -163,6 +162,9 @@
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
            <widget class="QPushButton" name="setHighlightBtn">
+            <property name="statusTip">
+             <string>Set selected cells to desired highlight color</string>
+            </property>
             <property name="text">
              <string>Highlight</string>
             </property>
@@ -170,6 +172,9 @@
           </item>
           <item>
            <widget class="QRadioButton" name="radioButton1">
+            <property name="statusTip">
+             <string>Set highlighting color to green</string>
+            </property>
             <property name="text">
              <string>Green</string>
             </property>
@@ -180,6 +185,9 @@
           </item>
           <item>
            <widget class="QRadioButton" name="radioButton2">
+            <property name="statusTip">
+             <string>Set highlighting color to cyan</string>
+            </property>
             <property name="text">
              <string>Cyan</string>
             </property>
@@ -187,6 +195,9 @@
           </item>
           <item>
            <widget class="QRadioButton" name="radioButton3">
+            <property name="statusTip">
+             <string>Set highlighting color to yellow</string>
+            </property>
             <property name="text">
              <string>Yellow</string>
             </property>
@@ -196,6 +207,9 @@
         </item>
         <item>
          <widget class="QTableWidget" name="tableWidget">
+          <property name="statusTip">
+           <string>Set the schedule of employees</string>
+          </property>
           <column>
            <property name="text">
             <string>Monday</string>
@@ -209,6 +223,11 @@
           <column>
            <property name="text">
             <string>Wednesday</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Thursday</string>
            </property>
           </column>
           <column>
@@ -242,12 +261,19 @@
         </property>
         <layout class="QGridLayout" name="gridLayout">
          <item row="1" column="0">
-          <widget class="QTextEdit" name="massEmpAddTextEdit"/>
+          <widget class="QTextEdit" name="massEmpAddTextEdit">
+           <property name="statusTip">
+            <string>Type employee names, seperate with new line</string>
+           </property>
+          </widget>
          </item>
          <item row="0" column="0">
           <widget class="QPushButton" name="massEmpAddBtn">
            <property name="toolTip">
             <string>Adds all employees</string>
+           </property>
+           <property name="statusTip">
+            <string>Adds employees</string>
            </property>
            <property name="text">
             <string>Add Employees</string>
@@ -283,6 +309,7 @@
      <string>Scheduler</string>
     </property>
     <addaction name="actionScheduler"/>
+    <addaction name="actionSave_Schedule"/>
    </widget>
    <addaction name="menuEmployees"/>
    <addaction name="menuScheduler"/>
@@ -333,6 +360,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+A</string>
+   </property>
+  </action>
+  <action name="actionSave_Schedule">
+   <property name="text">
+    <string>Save Schedule</string>
+   </property>
+   <property name="statusTip">
+    <string>Save the schedule ~ program auto saves on close</string>
    </property>
   </action>
  </widget>
