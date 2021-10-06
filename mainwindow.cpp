@@ -60,6 +60,47 @@ void MainWindow::on_actionMass_Add_triggered()
     ui -> stackedWidget -> setCurrentIndex(3);
 }
 
+void MainWindow::on_actionSave_Schedule_triggered()
+{
+    QSqlQuery query;
+    QStringList employeeIDs = {};
+    QStringList tableValues = {};
+
+    if(!query.exec("SELECT id FROM employees ORDER BY lastName"))
+        qWarning() << "saveSchedule get IDs Error: " << query.lastError();
+
+    while(query.next())
+        employeeIDs.append(query.value(0).toString());
+
+    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
+        for(int j = 0; j < 7; j++){
+            if(ui -> tableWidget -> item(i, j) == nullptr){
+                tableValues.append(NULL);
+            }
+            else{
+                tableValues.append(ui -> tableWidget -> item(i, j) -> text());
+            }
+        }
+    }
+
+    query.prepare("UPDATE schedule SET monday = :mon, tuesday = :tues, wednesday = :wednes, thursday = :thurs, friday = :fri, saturday = :sat, sunday = :sun WHERE id = :id");
+    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
+        int j = 0;
+
+        query.bindValue(":id", employeeIDs[i]);
+        query.bindValue(":mon", tableValues[7 * i + j++]);
+        query.bindValue(":tues", tableValues[7 * i + j++]);
+        query.bindValue(":wednes", tableValues[7 * i + j++]);
+        query.bindValue(":thurs", tableValues[7 * i + j++]);
+        query.bindValue(":fri", tableValues[7 * i + j++]);
+        query.bindValue(":sat", tableValues[7 * i + j++]);
+        query.bindValue(":sun", tableValues[7 * i + j++]);
+
+        if(!query.exec())
+            qWarning() << "saveSchedule update Error: " << query.lastError();
+    }
+}
+
 // window button functions
 void MainWindow::on_empRemoveBtn_clicked()
 {
@@ -123,23 +164,23 @@ void MainWindow::on_empAddBtn_clicked()
     }
 }
 
-//void MainWindow::on_scheduleClearCells_clicked()
-//{
-//    // clears content from all the cells
-//    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
-//        for(int j = 0; j < 7; j++){
-//            ui -> tableWidget -> item(i, j) -> setText("");
-//            ui -> tableWidget -> item(i, j) -> setBackground(Qt::NoBrush);
-//        }
-//    }
+void MainWindow::on_scheduleClearCells_clicked()
+{
+    // clears content from all the cells
+    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
+        for(int j = 0; j < 7; j++){
+            ui -> tableWidget -> item(i, j) -> setText("");
+            ui -> tableWidget -> item(i, j) -> setBackground(Qt::NoBrush);
+        }
+    }
 
-//    /* Note:
-//     * clearContent() cannot be used due to MainWindow::on_pushButton_2_clicked() below.
-//     * The selectedItems() function utlized by on_pushButton_2_clicked() needs content
-//     * in the cell to work correctly. clearContent() sets all cells to nullptr and won't
-//     * be returned with selectedItems().
-//     */
-//}
+    /* Note:
+     * clearContent() cannot be used due to MainWindow::on_pushButton_2_clicked() below.
+     * The selectedItems() function utlized by on_pushButton_2_clicked() needs content
+     * in the cell to work correctly. clearContent() sets all cells to nullptr and won't
+     * be returned with selectedItems().
+     */
+}
 
 void MainWindow::on_scheduleSetOff_clicked()
 {
@@ -150,11 +191,6 @@ void MainWindow::on_scheduleSetOff_clicked()
         selectedValues[i] -> setBackground(Qt::red);
     }
 }
-
-//void MainWindow::on_schedulePrint_clicked()
-//{
-//    MainWindow::saveSchedule();
-//}
 
 void MainWindow::on_massEmpAddBtn_clicked()
 {
@@ -292,47 +328,6 @@ void MainWindow::updateScheduler()
     }
 }
 
-//void MainWindow::saveSchedule()
-//{
-//    QSqlQuery query;
-//    QStringList employeeIDs = {};
-//    QStringList tableValues = {};
-
-//    if(!query.exec("SELECT id FROM employees ORDER BY lastName"))
-//        qWarning() << "saveSchedule get IDs Error: " << query.lastError();
-
-//    while(query.next())
-//        employeeIDs.append(query.value(0).toString());
-
-//    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
-//        for(int j = 0; j < 7; j++){
-//            if(ui -> tableWidget -> item(i, j) == nullptr){
-//                tableValues.append(NULL);
-//            }
-//            else{
-//                tableValues.append(ui -> tableWidget -> item(i, j) -> text());
-//            }
-//        }
-//    }
-
-//    query.prepare("UPDATE schedule SET monday = :mon, tuesday = :tues, wednesday = :wednes, thursday = :thurs, friday = :fri, saturday = :sat, sunday = :sun WHERE id = :id");
-//    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
-//        int j = 0;
-
-//        query.bindValue(":id", employeeIDs[i]);
-//        query.bindValue(":mon", tableValues[7 * i + j++]);
-//        query.bindValue(":tues", tableValues[7 * i + j++]);
-//        query.bindValue(":wednes", tableValues[7 * i + j++]);
-//        query.bindValue(":thurs", tableValues[7 * i + j++]);
-//        query.bindValue(":fri", tableValues[7 * i + j++]);
-//        query.bindValue(":sat", tableValues[7 * i + j++]);
-//        query.bindValue(":sun", tableValues[7 * i + j++]);
-
-//        if(!query.exec())
-//            qWarning() << "saveSchedule update Error: " << query.lastError();
-//    }
-//}
-
 void MainWindow::addEmployee(QString first, QString last)
 {
     QSqlQuery query;
@@ -367,70 +362,3 @@ void MainWindow::addEmployee(QString first, QString last)
 
     updateScheduler();
 }
-
-void MainWindow::on_scheduleClearCells_clicked()
-{
-    // clears content from all the cells
-    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
-        for(int j = 0; j < 7; j++){
-            ui -> tableWidget -> item(i, j) -> setText("");
-            ui -> tableWidget -> item(i, j) -> setBackground(Qt::NoBrush);
-        }
-    }
-
-    /* Note:
-     * clearContent() cannot be used due to MainWindow::on_pushButton_2_clicked() below.
-     * The selectedItems() function utlized by on_pushButton_2_clicked() needs content
-     * in the cell to work correctly. clearContent() sets all cells to nullptr and won't
-     * be returned with selectedItems().
-     */
-}
-
-
-
-
-
-
-
-
-void MainWindow::on_actionSave_Schedule_triggered()
-{
-    QSqlQuery query;
-    QStringList employeeIDs = {};
-    QStringList tableValues = {};
-
-    if(!query.exec("SELECT id FROM employees ORDER BY lastName"))
-        qWarning() << "saveSchedule get IDs Error: " << query.lastError();
-
-    while(query.next())
-        employeeIDs.append(query.value(0).toString());
-
-    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
-        for(int j = 0; j < 7; j++){
-            if(ui -> tableWidget -> item(i, j) == nullptr){
-                tableValues.append(NULL);
-            }
-            else{
-                tableValues.append(ui -> tableWidget -> item(i, j) -> text());
-            }
-        }
-    }
-
-    query.prepare("UPDATE schedule SET monday = :mon, tuesday = :tues, wednesday = :wednes, thursday = :thurs, friday = :fri, saturday = :sat, sunday = :sun WHERE id = :id");
-    for(int i = 0; i < ui -> tableWidget -> rowCount(); i++){
-        int j = 0;
-
-        query.bindValue(":id", employeeIDs[i]);
-        query.bindValue(":mon", tableValues[7 * i + j++]);
-        query.bindValue(":tues", tableValues[7 * i + j++]);
-        query.bindValue(":wednes", tableValues[7 * i + j++]);
-        query.bindValue(":thurs", tableValues[7 * i + j++]);
-        query.bindValue(":fri", tableValues[7 * i + j++]);
-        query.bindValue(":sat", tableValues[7 * i + j++]);
-        query.bindValue(":sun", tableValues[7 * i + j++]);
-
-        if(!query.exec())
-            qWarning() << "saveSchedule update Error: " << query.lastError();
-    }
-}
-

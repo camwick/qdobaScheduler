@@ -61,8 +61,11 @@ private:
     QColor color;
 
     void updateRemoveComboBox();
+
     void updateScheduler();
+
     void saveSchedule();
+
     void addEmployee(QString first, QString last);
 };
 #endif // MAINWINDOW_H
