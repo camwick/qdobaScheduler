@@ -55,6 +55,8 @@ private slots:
 
     void on_actionSave_Schedule_triggered();
 
+    void on_rmHighlightBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

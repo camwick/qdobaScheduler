@@ -104,6 +104,9 @@ void MainWindow::on_actionSave_Schedule_triggered()
 // window button functions
 void MainWindow::on_empRemoveBtn_clicked()
 {
+    // save current schedule to db
+    MainWindow::on_actionSave_Schedule_triggered();
+
     // structuring name strings
     QString fullName = ui -> empRemoveComboBox -> currentText();
     QStringList nameParts = fullName.split(" ");
@@ -143,6 +146,9 @@ void MainWindow::on_empRemoveBtn_clicked()
 
 void MainWindow::on_empAddBtn_clicked()
 {
+    // save current schedule to db
+    MainWindow::on_actionSave_Schedule_triggered();
+
     // getting name elements
     QString first = ui -> empAddFNLineEdit -> text().trimmed();
     QString last = ui -> empAddLNLineEdit -> text().trimmed();
@@ -182,6 +188,15 @@ void MainWindow::on_scheduleClearCells_clicked()
      */
 }
 
+void MainWindow::on_rmHighlightBtn_clicked()
+{
+    QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
+
+    for(int i = 0; i < selectedValues.size(); i++){
+        selectedValues[i] -> setBackground(Qt::NoBrush);
+    }
+}
+
 void MainWindow::on_scheduleSetOff_clicked()
 {
     QList<QTableWidgetItem *> selectedValues = ui -> tableWidget -> selectedItems();
@@ -194,6 +209,9 @@ void MainWindow::on_scheduleSetOff_clicked()
 
 void MainWindow::on_massEmpAddBtn_clicked()
 {
+    // save current schedule to db
+    MainWindow::on_actionSave_Schedule_triggered();
+
     // get text from QTextEdit
     QString plainText = ui -> massEmpAddTextEdit -> toPlainText();
     QStringList empNames = plainText.split("\n");
@@ -247,7 +265,7 @@ void MainWindow::on_empAddFNLineEdit_returnPressed()
 void MainWindow::on_radioButton1_toggled(bool checked)
 {
     if(checked)
-        color = Qt::green;
+        color = QColor(102,204,0,255);
 }
 
 

@@ -171,6 +171,16 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="rmHighlightBtn">
+            <property name="statusTip">
+             <string>Removes selected highlighting</string>
+            </property>
+            <property name="text">
+             <string>Remove Highlight</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QRadioButton" name="radioButton1">
             <property name="statusTip">
              <string>Set highlighting color to green</string>
@@ -368,6 +378,9 @@
    </property>
    <property name="statusTip">
     <string>Save the schedule ~ program auto saves on close</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
  </widget>
